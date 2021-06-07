@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+    <head>
+        <title>{% block title %}{% endblock title %}</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="قالب مدیریت ایرانی مدیران ">
+        <meta name="keywords" content="قالب مدیریت, قالب داشبورد, قالب ادمین, قالب مدیران, قالب مدیریت راستچین , قالب ایرانی مدیریت, پوسته مدیریت, قالب ادمین داشبورد سایت, قالب مدیریتی, مدیران, قالب مدیریت مدیران, پنل مدیریت, پنل مدیریت مدرن, قالب ادمین متریال, قالب مدیریت بوت استرپ, قالب ادمین بوتسترپ, قالب ادمین سایت, پوسته مدیریتی ایرانی, قالب مدیرتی مدیران ایرانی, بهترین قالب مدیریت, قالب مدیریت ریسپانسیو, قالب مدیریت ارزان, قالب admin">
+        <link rel="shortcut icon" href="{% static 'images/favicon.png' %}">
+
+        <!-- BEGIN CSS -->
+        <link href="{% static 'plugins/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
+        <link href="{% static 'plugins/bootstrap-rtl/dist/css/bootstrap-rtl.min.css' %}" rel="stylesheet">
+        <link href="{% static 'plugins/simple-line-icons/css/simple-line-icons.min.css' %}" rel="stylesheet">
+        <link href="{% static 'plugins/sweetalert2/dist/sweetalert2.min.css' %}" rel="stylesheet">
+        <link href="{% static 'plugins/paper-ripple/dist/paper-ripple.min.css' %}" rel="stylesheet">
+        <link href="{% static 'plugins/iCheck/skins/square/_all.css' %}" rel="stylesheet">
+        <link href="{% static 'css/style.css' %}" rel="stylesheet">
+        <link href="{% static 'css/colors.css' %}" rel="stylesheet">
+        <!-- END CSS -->
+        
+        
+    </head>
+    <body class="fix-header active-ripple theme-blue">
+        
+        {% block content %}{% endblock content %}
+        
+        <!-- BEGIN JS -->
+        <script src="{% static 'plugins/jquery/dist/jquery-1.12.4.min.js' %}"></script>
+        <script src="{% static 'plugins/jquery-migrate/jquery-migrate-1.2.1.min.js' %}"></script>
+        <script src="{% static 'plugins/popper/popper.min.js' %}"></script>
+        <script src="{% static 'plugins/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'plugins/paper-ripple/dist/PaperRipple.min.js' %}"></script>
+        <script src="{% static 'plugins/sweetalert2//dist/sweetalert2.min.js' %}"></script>
+        <script src="{% static 'plugins/iCheck/icheck.min.js' %}"></script>
+        <script src="{% static 'plugins/iCheck/icheck.min.js' %}"></script>
+        <script src="{% static 'plugins/jquery-validation/dist/jquery.validate.min.js' %}"></script>
+        <script src="{% static 'plugins/jquery-validation/src/localization/messages_fa.js' %}"></script>
+        <script src="{% static 'js/core.js' %}"></script>
+        
+        <!-- BEGIN PAGE JAVASCRIPT -->
+        <script src="{% static 'js/pages/login.js' %}"></script>
+        <!-- END PAGE JAVASCRIPT -->
+                
+    </body>
+</html>

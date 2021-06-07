@@ -1,0 +1,35 @@
+<!-- BEGIN WRAPPER -->
+<div id="wrapper">
+    <!-- BEGIN PAGE CONTENT -->
+
+    {% include "errors/partial/main_sidebar.html" %}    
+        <div id="page-content">
+            <div class="row">                    
+                <!-- BEGIN BREADCRUMB -->
+                <div class="col-md-12">
+                    <div class="breadcrumb-box border shadow"> 
+                        <ul class="breadcrumb">
+                        {% if 'manage' in request.path%}
+                            <li><a href="{% url 'index:manage' 'index' %}">مدیریت</a></li>
+                        {% endif %}
+                        {% if 'student' in request.path%}
+                            <li><a href="{% url 'index:manage' 'student' %}">دانش آموزان</a></li>
+                        {% elif 'achievement' in request.path%}
+                            <li><a href="{% url 'index:manage' 'achievement' %}">دست آورد ها</a></li>
+                        {% endif %}
+                        {% if 'confirm' in request.path %}
+                            <li><a href="">در انتظار تایید</a></li>
+                        {% endif %}
+                        {% if 'new' in request.path %}
+                            <li class="active">ثبت جدید</li>
+                        {% elif 'form' in request.path %}
+                            <li class="active">ویرایش</li>
+                        {% endif %}                            
+                        </ul>
+                        <div class="breadcrumb-left">
+                            {{ date }}
+                            <i class="icon-calendar"></i>
+                        </div><!-- /.breadcrumb-left -->
+                    </div><!-- /.breadcrumb-box -->
+                </div><!-- /.col-md-12 -->
+                <!-- END BREADCRUMB --> 

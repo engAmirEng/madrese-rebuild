@@ -1,0 +1,94 @@
+<div id="sidebar">
+    <div class="sidebar-top">
+        <div class="search-box">                        
+            <form class="search-form" action="#" method="GET">
+                {% comment %} <div class="input-group">
+                    <input type="text" class="form-control placeholder-light" placeholder="جستجو..." name="key">
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-round submit">
+                            <i class="icon-magnifier"></i>
+                        <div class="paper-ripple"><div class="paper-ripple__background"></div><div class="paper-ripple__waves"></div></div></button>
+                    </span>
+                </div> {% endcomment %}
+            </form>
+        </div><!-- /.search-box -->
+        <div class="user-box">
+            <!-- <a href="#">
+                <img src="assets/images/user/128.png" alt="عکس پروفایل" class="img-circle img-responsive">
+            </a> -->
+            <div class="user-details">
+                <h4>{{ user.first_name }}
+                {{ user.last_name }}</h4>
+                <p class="role"></p>
+                <div class="dropdown user-login">
+                    <button class="btn btn-xs btn-status dropdown-toggle btn-round" type="button" data-toggle="dropdown" data-hover="dropdown" aria-expanded="false">
+                        <i class="fa fa-circle text-success"></i>
+                        <span>دردسترس</span>
+                    <div class="paper-ripple"><div class="paper-ripple__background"></div><div class="paper-ripple__waves"></div></div></button>
+                    <ul class="dropdown-menu dropdown-status">
+                        <li>
+                            <a href="#" class="busy">
+                                <i class="fa fa-circle text-success"></i>
+                                <span>دردسترس</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="busy">
+                                <i class="fa fa-circle text-danger"></i>
+                                <span>مشغول</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-circle text-gray"></i>
+                                <span>مخفی</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-circle text-warning"></i>
+                                <span>سایر</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div><!-- /dropdown -->
+            </div><!-- /.user-details -->
+        </div><!-- /.user-box -->
+    </div><!-- /.sidebar-top -->
+    <div class="side-menu-container">
+        <ul class="metismenu" id="side-menu">
+
+            <li>
+                <a href="#" class="dropdown-toggle">
+                    <i class="icon-layers"></i>
+                    <span>مدل ها</span>
+                <div class="paper-ripple"><div class="paper-ripple__background"></div><div class="paper-ripple__waves"></div></div></a>
+                <ul aria-expanded="false" class="collapse">
+                    <li>
+                        <a href="{% url 'mentor:achievement' %}" class="">
+                            <i class="icon-folder"></i>
+                            <span>دست آورد ها</span>
+                        <div class="paper-ripple"><div class="paper-ripple__background"></div><div class="paper-ripple__waves"></div></div></a>
+                    </li>
+
+                </ul>
+            </li>
+
+            <li>
+                <a href="#" class="dropdown-toggle">
+                    <i class="icon-layers"></i>
+                    <span>در انتظار تایید</span>
+                <div class="paper-ripple"><div class="paper-ripple__background"></div><div class="paper-ripple__waves"></div></div></a>
+                <ul aria-expanded="false" class="collapse">
+                    <li>
+                        <a href="{% url 'mentor:achievement_waiting' %}" class="">
+                            <i class="icon-folder"></i>
+                            <span>دست آورد ها</span>
+                        <div class="paper-ripple"><div class="paper-ripple__background"></div><div class="paper-ripple__waves"></div></div></a>
+                    </li>
+                </ul>
+            </li>
+        
+        </ul><!-- /#side-menu -->
+    </div><!-- /.side-menu-container -->
+</div>

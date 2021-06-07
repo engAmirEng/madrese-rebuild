@@ -1,0 +1,219 @@
+{% extends 'mentor/partial/_baseview2.html' %}
+{% load static %}
+
+{% block title %}
+{% if "student"  in request.path%}مدیریت|دانش آموزان
+{% elif "achievement" in request.path %}مدیریت|دست آورد ها 
+{% else %}مدیدیت{% endif %}
+{% endblock title %}
+
+{% block content %}
+
+    <!-- BEGIN LOEADING -->
+    <div id="loader">
+        <div class="spinner"></div>
+    </div><!-- /loader -->
+    <!-- END LOEADING -->
+    
+    <!-- BEGIN HEADER -->
+    {% include "mentor/partial/header.html" %}
+    <!-- END HEADER -->
+
+    {% include "mentor/partial/messages.html" %}
+    
+    <!-- BEGIN WRAPPER -->
+    {% include "mentor/partial/start_manage.html" %}
+    
+
+    
+    {% if 'student' in request.path %}
+    <table class="table">
+        <thead>
+            <tr>
+            <th> تصویر </th>
+            <th> نام </th>
+            <th> نام خانوادگی </th>
+            <th> تاریخ تولد </th>
+            </tr>
+        </thead>
+        <thead>
+            <form action="" method="post">
+                {% csrf_token %} 
+            <th> <input class="btn btn-primary" type="submit" value=" جست و جو"> </th>
+            <th> <input class="form-control" type="search" name="first_name"> </th>
+            <th> <input class="form-control" type="search" name="last_name"> </th>
+            <th> <input class="form-control" type="search" name="birthday"> </th>
+            </form>
+        </thead>
+        <tbody>
+            {% for st in student %}
+            <tr>
+            <th><img src="{{ st.photo.url }}" width="100" height="60" alt=""></th>
+            <th>{{st.first_name}}</th>
+            <th>{{st.last_name}}</th>
+            <th>{{st.birthday}}</th>
+            <th><th> <a class="btn btn-primary" href="{% url 'base:form' 'student' st.id %}"> ویرایش </a> </th></th>
+            <th><th> <a onclick="return confirm(' این رکورد حذف خواهد شد،ادامه؟')" class="btn btn-danger" href="{% url 'base:delete' 'student' st.id %}"> حذف </a> </th></th>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <form action="{% url 'base:form' 'new_student' 0 %}" method="get">
+        <input class="btn btn-primary" type="submit" value=" ثبت رکورد جدید ">
+    </form>
+    {% elif 'achievement_waiting' in request.path %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    <a href="?order=owner"><i class="fa fa-sort-down" aria-hidden="true"></i></a>
+                    <a href="?order=-owner"><i class="fa fa-sort-up" aria-hidden="true"></i></i></a>                    
+                    مقام آورنده </th>
+                <th>
+                    <a href="?order=title"><i class="fa fa-sort-down" aria-hidden="true"></i></a>
+                    <a href="?order=-title"><i class="fa fa-sort-up" aria-hidden="true"></i></i></a>
+                    عنوان افتخار </th>
+                <th>
+                    <a href="?order=year"><i class="fa fa-sort-down" aria-hidden="true"></i></a>
+                    <a href="?order=-year"><i class="fa fa-sort-up" aria-hidden="true"></i></i></a>
+                    سال افتخار </th>
+                <th>
+                    <a href="?order=level"><i class="fa fa-sort-down" aria-hidden="true"></i></a>
+                    <a href="?order=-level"><i class="fa fa-sort-up" aria-hidden="true"></i></i></a>                    
+                    سطح </th>
+                <th>
+                    <a href="?order=field"><i class="fa fa-sort-down" aria-hidden="true"></i></a>
+                    <a href="?order=-field"><i class="fa fa-sort-up" aria-hidden="true"></i></i></a>                    
+                    دسته بندی </th>
+                <th>
+                    <a href="?order=dore"><i class="fa fa-sort-down" aria-hidden="true"></i></a>
+                    <a href="?order=-dore"><i class="fa fa-sort-up" aria-hidden="true"></i></i></a>                    
+                    دوره </th>
+                <th> تصویر مدرک </th>
+                <th> لینک ها  </th>
+                <th> توضیحات  </th>
+                <th>
+                    <a href="?order=kind"><i class="fa fa-sort-down" aria-hidden="true"></i></a>
+                    <a href="?order=-kind"><i class="fa fa-sort-up" aria-hidden="true"></i></i></a>                    
+                    نوع درخواست </th>
+                <th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ar in achievement %}
+            <tr>
+                <th>{{ar.owner.first_name}} {{ar.owner.last_name}}</th>
+                <th>{{ar.title}}</th>
+                <th>{{ar.year}}</th>
+                <th>{{ar.level}}</th>
+                <th>{{ar.field}}</th>
+                <th>{{ar.dore}}</th>
+                {% if ar.pic %}<th><img src="{{ar.pic.url}}" width="100" height="60" alt=""></th>{% else %}<th> بارگذاری نشده </th>{% endif %}
+                {% if ar.video_link %}<th>{{ar.video_link}}</th>{% else %}<th> وارد نشده </th>{% endif %}
+                {% if ar.detail %}
+                <th>
+                    <details>
+                        <summary>{{ ar.detail|slice:"0:20" }}</summary>
+                        <p>{{ ar.detail }}</p>
+                    </details>
+                </th>
+                {% else %}<th> وارد نشده </th>{% endif %}
+
+                <th> {% if ar.refrence_id == 0 %}<label class="label-success round">درخواست جدید</label> 
+                {% elif ar.is_deleted %}<label class="label-danger round">درخواست حذف</label>
+                {% else %}<label class="label-success round">درخواست ویرایش</label>{% endif %} </th>
+                {% if 'student' in ar.modify_level %}
+                <th><th> <a href="{% url 'mentor:achievement_confirm_deny' 'confirm' ar.refrence_id ar.id%}"
+                            onclick="return confirm(' تغییرات تایید خواهند شد،ادامه؟')" class="btn btn-primary" 
+                            role="button"> تایید تغییرات </a> </th></th>
+                {% endif %}
+                <th><th> <a href="{% url 'mentor:achievement_confirm_deny' 'deny' ar.refrence_id ar.id%}"
+                            onclick="return confirm(' تغییرات رد خواهند شد،ادامه؟')" class="btn btn-danger" 
+                            role="button" > رد تغییرات </a> </th></th>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% elif 'achievement' in request.path %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    <a href="?order=owner"><i class="fa fa-sort-down" aria-hidden="true"></i></a>
+                    <a href="?order=-owner"><i class="fa fa-sort-up" aria-hidden="true"></i></i></a>                    
+                    مقام آورنده </th>
+                <th>
+                    <a href="?order=title"><i class="fa fa-sort-down" aria-hidden="true"></i></a>
+                    <a href="?order=-title"><i class="fa fa-sort-up" aria-hidden="true"></i></i></a>
+                    عنوان افتخار </th>
+                <th>
+                    <a href="?order=year"><i class="fa fa-sort-down" aria-hidden="true"></i></a>
+                    <a href="?order=-year"><i class="fa fa-sort-up" aria-hidden="true"></i></i></a>
+                    سال افتخار </th>
+                <th>
+                    <a href="?order=level"><i class="fa fa-sort-down" aria-hidden="true"></i></a>
+                    <a href="?order=-level"><i class="fa fa-sort-up" aria-hidden="true"></i></i></a>                    
+                    سطح </th>
+                <th>
+                    <a href="?order=field"><i class="fa fa-sort-down" aria-hidden="true"></i></a>
+                    <a href="?order=-field"><i class="fa fa-sort-up" aria-hidden="true"></i></i></a>                    
+                    دسته بندی </th>
+                <th>
+                    <a href="?order=dore"><i class="fa fa-sort-down" aria-hidden="true"></i></a>
+                    <a href="?order=-dore"><i class="fa fa-sort-up" aria-hidden="true"></i></i></a>                    
+                    دوره </th>
+                <th> لینک ها  </th>
+                <th> توضیحات  </th>
+            </tr>
+        </thead>
+        <thead>
+            <form action="" method="post">
+                {% csrf_token %} 
+                <th> <input class="form-control" type="search" name="owner"> </th>
+                <th> <input class="form-control" type="search" name="title"> </th>
+                <th> <input class="form-control" type="search" name="year"> </th>
+                <th> <input class="form-control" type="search" name="level"> </th>
+                <th> <input class="form-control" type="search" name="field"> </th>
+                <th> <input class="form-control" type="search" name="dore"> </th>
+                <th>  </th>
+                <th> <input class="form-control" type="search" name="video_link"> </th>
+                <th> <input class="form-control" type="search" name="detail"> </th>
+                <th> <input class="btn btn-primary" type="submit" value=" جست و جو"> </th>
+            </form>
+        </thead>
+        <tbody>
+            {% for ar in achievement %}
+            <tr>
+                <th>{{ar.owner.first_name}} {{ar.owner.last_name}}</th>
+                <th>{{ar.title}}</th>
+                <th>{{ar.year}}</th>
+                <th>{{ar.level}}</th>
+                <th>{{ar.field}}</th>
+                <th>{{ar.dore}}</th>
+                {% if ar.pic %}<th><img src="{{ar.pic.url}}" width="100" height="60" alt=""></th>{% else %}<th> بارگذاری نشده </th>{% endif %}
+                {% if ar.video_link %}<th>{{ar.video_link}}</th>{% else %}<th> وارد نشده </th>{% endif %}
+                {% if ar.detail %}
+                <th>
+                    <details>
+                        <summary>{{ ar.detail|slice:"0:20" }}</summary>
+                        <p>{{ ar.detail }}</p>
+                    </details>
+                </th>{% else %}<th> وارد نشده </th>{% endif %}
+                <th><th> <a class="btn btn-primary" role="button" href="{% url 'mentor:achievement_form' ar.refrence_id %}"> ویرایش </a> </th></th>
+                <th><th> <a onclick="return confirm(' این رکورد حذف خواهد شد،ادامه؟')" class="btn btn-danger" role="button" href="{% url 'mentor:achievement_delete' ar.refrence_id %}"> حذف </a> </th></th>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+<form action="{% url 'mentor:achievement_form' 0 %}" method="get">
+    <input type="submit" class="btn btn-primary" value=" ثبت رکورد جدید ">
+</form>
+    {% elif 'dashboard' in request.path %}
+    {% endif %}
+
+    {% include "mentor/partial/end_manage.html" %}
+
+    <!-- BEGIN FOOTER -->
+    {% include "mentor/partial/footer.html" %}
+    <!-- END FOOTER -->
+{% endblock content %}

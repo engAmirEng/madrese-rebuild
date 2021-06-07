@@ -1,0 +1,333 @@
+{% extends 'student/partial/_baseview2.html' %}
+{% load static %}
+{% block title %}فرم ها{% endblock title %}
+{% block content %}
+
+    <!-- BEGIN LOEADING -->
+    <div id="loader">
+        <div class="spinner"></div>
+    </div><!-- /loader -->
+    <!-- END LOEADING -->
+    
+    <!-- BEGIN HEADER -->
+    {% include "student/partial/header.html" %}
+    <!-- END HEADER -->
+    
+    {% include "student/partial/messages.html" %}
+
+        {% include "student/partial/start_manage.html" %}
+
+
+        {% if 'achievement/form/0' in request.path %}
+        <div class="col-lg-6">
+            <div class="portlet box border shadow">
+                <div class="portlet-heading">
+                    <div class="portlet-title">
+                        <h3 class="title">                                        
+                            <i class="icon-settings"></i>
+                            ثبت دست آورد جدید
+                        </h3>
+                    </div><!-- /.portlet-title -->
+                    <div class="buttons-box">
+                        <a class="btn btn-sm btn-default btn-round btn-fullscreen" rel="tooltip" title="تمام صفحه" href="#">
+                            <i class="icon-size-fullscreen"></i>
+                        </a>
+                        <a class="btn btn-sm btn-default btn-round btn-collapse" rel="tooltip" title="کوچک کردن" href="#">
+                            <i class="icon-arrow-up"></i>
+                        </a>
+                    </div><!-- /.buttons-box -->
+                </div><!-- /.portlet-heading -->
+                <div class="portlet-body">
+                    <form role="form" action="" enctype="multipart/form-data" method="post">
+                        {% csrf_token %}
+                        <div class="form-body">
+                            <div class="form-group">
+                                <label>{{ form.owner.label}}</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="icon-user"></i>
+                                    </span>
+                                    <!-- <input type="text" class="form-control" placeholder="نام" name="first_name"> -->
+                                    {{ form.owner}}
+                                </div><!-- /.input-group -->
+                            </div><!-- /.form-group -->
+                            <div class="form-group">
+                                <label>{{ form.title.label }}</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-user"></i>
+                                    </span>
+                                    <!-- <input type="text" class="form-control" placeholder="نام خانوادگی" name="last_name"> -->
+                                    {{ form.title}}
+
+                                </div><!-- /.input-group -->
+                            </div><!-- /.form-group -->
+                            <div class="form-group">
+                                <label>{{ form.year.label }}</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-user"></i>
+                                    </span>
+                                    <!-- <input type="text" class="form-control" placeholder="نام خانوادگی" name="last_name"> -->
+                                    {{ form.year}}
+
+                                </div><!-- /.input-group -->
+                            </div><!-- /.form-group -->
+                            <div class="form-group">
+                                <label>{{ form.field.label }}</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-user"></i>
+                                    </span>
+                                    <!-- <input type="text" class="form-control" placeholder="نام خانوادگی" name="last_name"> -->
+                                    {{ form.field}}
+
+                                </div><!-- /.input-group -->
+                            </div><!-- /.form-group -->
+                            <div class="form-group">    
+                                <label>{{ form.level.label }}</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-user"></i>
+                                    </span>
+                                    <!-- <input type="text" class="form-control" placeholder="نام خانوادگی" name="last_name"> -->
+                                    {{ form.level }}
+
+                                </div><!-- /.input-group -->
+                            <div class="form-group">
+                            </div><!-- /.form-group -->    
+                                <label>{{ form.dore.label }}</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-user"></i>
+                                    </span>
+                                    <!-- <input type="text" class="form-control" placeholder="نام خانوادگی" name="last_name"> -->
+                                    {{ form.dore }}
+
+                                </div><!-- /.input-group -->
+                            </div><!-- /.form-group -->
+                            <div class="form-group">    
+                                <label>{{ form.video_link.label }}</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-user"></i>
+                                    </span>
+                                    <!-- <input type="text" class="form-control" placeholder="نام خانوادگی" name="last_name"> -->
+                                    {{ form.video_link }}
+
+                                </div><!-- /.input-group -->
+                            </div><!-- /.form-group -->
+                            <div class="form-group">   
+                                <label>{{ form.detail.label }}</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-user"></i>
+                                    </span>
+                                    <!-- <input type="text" class="form-control" placeholder="نام خانوادگی" name="last_name"> -->
+                                    {{ form.detail }}
+
+                                </div><!-- /.input-group -->
+                            </div><!-- /.form-group -->
+                            <div class="form-group relative">
+                                <input type="file" class="form-control"> 
+                                <label>{{ form.pic.label}}</label>
+                                <div class="input-group round">
+                                    <input type="file" accept="" class="form-control file-input" placeholder="برای آپلود کلیک کنید" name="pic">
+                                    <!-- {{ form.photo.url } -->
+                                    <span class="input-group-btn input-group-sm"> 
+                                        <button type="button" class="btn btn-info"> 
+                                            <i class="icon-picture"></i>
+                                            آپلود عکس
+                                        </button>
+                                    </span> 
+                                </div><!-- /.input-group -->
+                                <div class="help-block"></div>
+                            </div><!-- /.form-group -->
+                        </div><!-- /.form-body -->
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-info btn-round">
+                                <i class="icon-check"></i>
+                                ذخیره
+                            </button>
+                            <button  type="button" class="btn btn-warning btn-round">
+                                بازگشت
+                                <i class="icon-close"></i>
+                            </button>
+                            </a>
+                        </div><!-- /.form-actions -->
+                    </form>
+                </div><!-- /.portlet-body -->
+            </div><!-- /.portlet -->
+        </div>
+        {% elif 'achievement/form' in request.path %}
+        <div class="col-lg-6">
+            <div class="portlet box border shadow">
+                <div class="portlet-heading">
+                    <div class="portlet-title">
+                        <h3 class="title">                                        
+                            <i class="icon-settings"></i>
+                            ویرایش دست آورد ها
+                        </h3>
+                    </div><!-- /.portlet-title -->
+                    <div class="buttons-box">
+                        <a class="btn btn-sm btn-default btn-round btn-fullscreen" rel="tooltip" title="تمام صفحه" href="#">
+                            <i class="icon-size-fullscreen"></i>
+                        </a>
+                        <a class="btn btn-sm btn-default btn-round btn-collapse" rel="tooltip" title="کوچک کردن" href="#">
+                            <i class="icon-arrow-up"></i>
+                        </a>
+                    </div><!-- /.buttons-box -->
+                </div><!-- /.portlet-heading -->
+                <div class="portlet-body">
+                    <form role="form" action="" enctype="multipart/form-data" method="post">
+                        {% csrf_token %}
+                        <div class="form-body">
+                            <div class="form-group">
+                                <label>{{ form.owner.label}}</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="icon-user"></i>
+                                    </span>
+                                    <!-- <input type="text" class="form-control" placeholder="نام" name="first_name"> -->
+                                    {{ form.owner}}
+                                </div><!-- /.input-group -->
+                            </div><!-- /.form-group -->
+                            <div class="form-group">
+                                <label>{{ form.title.label }}</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-user"></i>
+                                    </span>
+                                    <!-- <input type="text" class="form-control" placeholder="نام خانوادگی" name="last_name"> -->
+                                    {{ form.title}}
+
+                                </div><!-- /.input-group -->
+                            </div><!-- /.form-group -->
+                            <div class="form-group">
+                                <label>{{ form.year.label }}</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-user"></i>
+                                    </span>
+                                    <!-- <input type="text" class="form-control" placeholder="نام خانوادگی" name="last_name"> -->
+                                    {{ form.year}}
+
+                                </div><!-- /.input-group -->
+                            </div><!-- /.form-group -->
+                            <div class="form-group">
+                                <label>{{ form.field.label }}</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-user"></i>
+                                    </span>
+                                    <!-- <input type="text" class="form-control" placeholder="نام خانوادگی" name="last_name"> -->
+                                    {{ form.field}}
+
+                                </div><!-- /.input-group -->
+                            </div><!-- /.form-group -->
+                            <div class="form-group">    
+                                <label>{{ form.level.label }}</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-user"></i>
+                                    </span>
+                                    <!-- <input type="text" class="form-control" placeholder="نام خانوادگی" name="last_name"> -->
+                                    {{ form.level }}
+
+                                </div><!-- /.input-group -->
+                            <div class="form-group">
+                            </div><!-- /.form-group -->    
+                                <label>{{ form.dore.label }}</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-user"></i>
+                                    </span>
+                                    <!-- <input type="text" class="form-control" placeholder="نام خانوادگی" name="last_name"> -->
+                                    {{ form.dore }}
+
+                                </div><!-- /.input-group -->
+                            </div><!-- /.form-group -->
+                            <div class="form-group">    
+                                <label>{{ form.video_link.label }}</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-user"></i>
+                                    </span>
+                                    <!-- <input type="text" class="form-control" placeholder="نام خانوادگی" name="last_name"> -->
+                                    {{ form.video_link }}
+
+                                </div><!-- /.input-group -->
+                            </div><!-- /.form-group -->
+                            <div class="form-group">   
+                                <label>{{ form.detail.label }}</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-user"></i>
+                                    </span>
+                                    <!-- <input type="text" class="form-control" placeholder="نام خانوادگی" name="last_name"> -->
+                                    {{ form.detail }}
+
+                                </div><!-- /.input-group -->
+                            </div><!-- /.form-group -->
+                            <div class="form-group relative">
+                                <input type="file" class="form-control"> 
+                                <label>{{ form.pic.label}}</label>
+                                <div class="input-group round">
+                                    <input type="file" accept="" class="form-control file-input" placeholder="برای آپلود کلیک کنید" name="pic">
+                                    <!-- {{ form.photo.url } -->
+                                    <span class="input-group-btn input-group-sm"> 
+                                        <button type="button" class="btn btn-info"> 
+                                            <i class="icon-picture"></i>
+                                            آپلود عکس
+                                        </button>
+                                    </span> 
+                                </div><!-- /.input-group -->
+                                <div class="help-block"></div>
+                            </div><!-- /.form-group -->
+                        </div><!-- /.form-body -->
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-info btn-round">
+                                <i class="icon-check"></i>
+                                ذخیره
+                            </button>
+                            <button  type="button" class="btn btn-warning btn-round">
+                                بازگشت
+                                <i class="icon-close"></i>
+                            </button>
+                            </a>
+                        </div><!-- /.form-actions -->
+                    </form>
+                </div><!-- /.portlet-body -->
+            </div><!-- /.portlet -->
+        </div>
+        {% endif %}
+
+        {% include "student/partial/end_manage.html" %}
+
+    {{ form.errors }}
+    {{ form.non_field_errors }}
+
+    <!-- BEGIN FOOTER -->
+    {% include "student/partial/footer.html" %}
+    <!-- END FOOTER -->
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

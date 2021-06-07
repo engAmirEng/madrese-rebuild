@@ -1,0 +1,33 @@
+<!-- BEGIN WRAPPER -->
+<div id="wrapper">
+    <!-- BEGIN PAGE CONTENT -->
+
+    {% include "accounts/partial/main_sidebar.html" %}    
+        <div id="page-content">
+            <div class="row">                    
+                <!-- BEGIN BREADCRUMB -->
+                <div class="col-md-12">
+                    <div class="breadcrumb-box border shadow"> 
+                        <ul class="breadcrumb">
+                        {% if 'dashboard' in request.path%}
+                            <li><a href="{% url 'mentir:dashboard' %}">مدیریت</a></li>
+                        {% endif %}
+                        {% if 'achievement' in request.path%}
+                            <li><a href="{% url 'index:manage' 'achievement' %}">دست آورد ها</a></li>
+                        {% endif %}
+                        {% if 'achievement_waiting' in request.path %}
+                            <li><a href="">در انتظار تایید</a></li>
+                        {% endif %}
+                        {% if 'achievement/form/0' in request.path %}
+                            <li class="active">ثبت جدید</li>
+                        {% elif 'achievement/form' in request.path %}
+                            <li class="active">ویرایش</li>
+                        {% endif %}                            
+                        </ul>
+                        <div class="breadcrumb-left">
+                            {{ date }}
+                            <i class="icon-calendar"></i>
+                        </div><!-- /.breadcrumb-left -->
+                    </div><!-- /.breadcrumb-box -->
+                </div><!-- /.col-md-12 -->
+                <!-- END BREADCRUMB --> 

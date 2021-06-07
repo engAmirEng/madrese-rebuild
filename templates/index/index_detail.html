@@ -1,0 +1,99 @@
+{% extends 'index/partial/_baseview2.html' %}
+{% load static %}
+{% block title %}{% if "detail" in request.path %}دست آورد ها|{{achievement.title}}{% else %}مدرسه | صفحه اصلی{% endif %}{% endblock title %}
+{% block content %}
+    
+    <!-- BEGIN LOEADING -->
+    <div id="loader">
+        <div class="spinner"></div>
+    </div><!-- /loader -->
+    <!-- END LOEADING -->
+
+{% include "index/partial/header.html" %}
+
+{% include "index/partial/messages.html" %}
+
+
+<div class="table-responsive">
+    <table class="table">
+        {% if 'detail' in request.path %}
+        <thead>
+                <th> تصویر </th>
+                <th> نام </th>
+                <th> نام خانوادگی </th>
+                <th> تاریخ تولد </th>
+                <th> عنوان افتخار </th>
+                <th> سال افتخار </th>
+                <th> سطح </th>
+                <th> دسته بندی </th>
+                <th> دوره </th>
+                <th> تصویر مدرک </th>
+                <th> لینک ها  </th>
+                <th> توضیحات  </th>
+        </thead>
+        </thead>
+        <tbody>
+            <th><img src="{{ achievement.owner.photo.url }}" alt=""></th>
+            <th>{{ achievement.owner.first_name }}</th>
+            <th>{{ achievement.owner.last_name }}</th>
+            <th>{{ achievement.owner.birthday }}</th>
+            <th>{{ achievement.title }}</th>
+            <th>{{ achievement.year }}</th>
+            <th>{{ achievement.level }}</th>
+            <th>{{ achievement.field }}</th>
+            <th>{{ achievement.dore }}</th>
+            {% if achievement.pic %}<th><img src="{{ achievement.pic.url }}" alt=""></th>{% else %}<th> بارگذاری نشده </th>{% endif %}
+            {% if achievement.video_link %}<th>{{achievement.video_link}}</th>{% else %}<th> وارد نشده </th>{% endif %}
+            {% if achievement.detail %}<th>{{ achievement.detail }}</th>>{% else %}<th> وارد نشده </th>{% endif %}
+        </tbody>
+        {% else %}
+        <thead>
+            <form action="" method="post">
+                {% csrf_token %} 
+            <th> <input class="btn btn-primary" type="submit" value=" جست و جو"> </th>
+            <th> <input class="form-control" type="search" name="first_name"> </th>
+            <th> <input class="form-control" type="search" name="last_name"> </th>
+            <th> <input class="form-control" type="search" name="title"> </th>
+            <th> <input class="form-control" type="search" name="year"> </th>
+            <th> <input class="form-control" type="search" name="level"> </th>
+            </form>
+        </thead>
+        <thead>
+            <tr>
+                <th> تصویر </th>
+                <th> نام </th>
+                <th> نام خانوادگی </th>
+                <th> عنوان افتخار </th>
+                <th> سال افتخار </th>
+                <th> سطح </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ar in achievement %}
+            <tr>
+            <th><img src="{{ ar.owner.photo.url }}" alt=""></th>
+            <th>{{ ar.owner.first_name }}</th>
+            <th>{{ ar.owner.last_name }}</th>
+            <th>{{ ar.title }}</th>
+            <th>{{ ar.year }}</th>
+            <th>{{ ar.level }}</th>
+            <th> <a class="btn btn-info" role="button" href="{% url 'index:detail' ar.id %}"> بیشتر </a> </th>
+            </tr>
+            {% endfor %}
+        </tbody>
+        {% endif %}
+    </table>
+    <br> <br>
+<a href=
+    {% if perms.index.student %}
+    "{% url 'student:dashboard' %}"
+    {% elif perms.index.mentor %}
+    "{% url 'mentor:dashboard' %}"
+    {% else %}
+    "{% url 'accounts:login' %}"
+    {% endif %}
+><button class="btn btn-primary" role="button"><h2> پنل مدیریت </h2></button></a>
+    <!-- BEGIN FOOTER -->
+    {% include "index/partial/footer.html" %}
+    <!-- END FOOTER -->
+{% endblock content %}
