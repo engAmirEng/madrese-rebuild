@@ -6,8 +6,11 @@ from django.contrib.auth.decorators import login_required, permission_required
 from .forms import AchievementForm, StudentForm
 from django.contrib import messages
 from django.contrib.auth.models import Permission
+from django.contrib.auth import get_user_model
 from . import extensions
 
+
+User = get_user_model()
 
 @require_GET
 @login_required
@@ -220,3 +223,32 @@ def achievement_confirm_deny(request, action, refrence_id, id):
         obj.delete()
         messages.success(request, "درخواست تغییرات رد شد")
     return redirect('manager:achievement_waiting')
+
+
+@login_required
+@require_GET
+@permission_required(['index.manager'])
+def user_waiting(request):
+    user_waiting_list = User.objects.filter(is_active=False)
+    if 'order' in request.GET:
+        user_waiting_list = user_waiting_list.order_by(request.GET.get('order'))
+    for user in user_waiting_list:
+        y ,m ,d = extensions.gregorian_to_jalali(user.date_joined.year, user.date_joined.month, user.date_joined.day)
+        user.date_joined = f'{y}/{m}/{d}'
+    content = {
+        "user_waiting_list": user_waiting_list}
+    content.update({"date": extensions.now()})
+    return render(request, "manager/managing.html", content)
+
+
+@login_required
+@require_GET
+@permission_required(['index.manager'])
+def user_confirm_deny(request, action, id):
+    user_obj = get_object_or_404(User, id=id)
+    if action == 'confirm':
+        user_obj.is_active = True
+        user_obj.save()
+    elif action == 'deny':
+        user_obj.delete()
+    return redirect('manager:user_waiting')

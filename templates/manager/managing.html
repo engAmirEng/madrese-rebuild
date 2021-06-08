@@ -141,6 +141,55 @@
             {% endfor %}
         </tbody>
     </table>
+    {% elif 'user_waiting' in request.path %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    <a href="?order=first_name"><i class="fa fa-sort-down" aria-hidden="true"></i></a>
+                    <a href="?order=-first_name"><i class="fa fa-sort-up" aria-hidden="true"></i></i></a>                    
+                    نام </th>
+                <th>
+                    <a href="?order=last_name"><i class="fa fa-sort-down" aria-hidden="true"></i></a>
+                    <a href="?order=-last_name"><i class="fa fa-sort-up" aria-hidden="true"></i></i></a>
+                    نام خانوادگی </th>
+                <th>
+                    <a href="?order=email"><i class="fa fa-sort-down" aria-hidden="true"></i></a>
+                    <a href="?order=-email"><i class="fa fa-sort-up" aria-hidden="true"></i></i></a>
+                    پست الکترونیکی </th>
+                <th>
+                    <a href="?order=meli_code"><i class="fa fa-sort-down" aria-hidden="true"></i></a>
+                    <a href="?order=-meli_code"><i class="fa fa-sort-up" aria-hidden="true"></i></i></a>                    
+                    کد ملی </th>
+                <th>
+                    <a href="?order=position"><i class="fa fa-sort-down" aria-hidden="true"></i></a>
+                    <a href="?order=-position"><i class="fa fa-sort-up" aria-hidden="true"></i></i></a>                    
+                    مسئولیت </th>
+                <th>
+                    <a href="?order=date_joined"><i class="fa fa-sort-down" aria-hidden="true"></i></a>
+                    <a href="?order=-date_joined"><i class="fa fa-sort-up" aria-hidden="true"></i></i></a>                    
+                    تاریخ ثبت نام </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for uw in user_waiting_list %}
+            <tr>
+                <th>{{uw.first_name}}</th>
+                <th>{{uw.last_name}}</th>
+                <th>{{uw.email}}</th>
+                <th>{{uw.meli_code}}</th>
+                <th>{{uw.position}}</th>
+                <th>{{uw.date_joined}}</th>
+                <th><th> <a href="{% url 'manager:user_confirm_deny' 'confirm' uw.id %}"
+                            onclick="return confirm(' حساب تایید خواهد شد،ادامه؟')" class="btn btn-primary" 
+                            role="button"> فعال سازی حساب </a> </th></th>
+                <th><th> <a href="{% url 'manager:user_confirm_deny' 'deny' uw.id %}"
+                            onclick="return confirm(' حساب حذف خواهد شد،ادامه؟')" class="btn btn-danger" 
+                            role="button" > حذف حساب </a> </th></th>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
     {% elif 'achievement' in request.path %}
     <table class="table">
         <thead>

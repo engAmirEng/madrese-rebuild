@@ -14,6 +14,7 @@ class CustomUserAdmin(UserAdmin):
             {
                 'fields': (
                     'meli_code',
+                    'position',
                 )
             }
         )

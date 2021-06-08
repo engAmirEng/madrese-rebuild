@@ -83,7 +83,8 @@ def register_student(request):
                                             username=request.POST["username"], 
                                             password=request.POST["password"]+salt, 
                                             meli_code=request.POST['meli_code'], 
-                                            email=request.POST["email"], 
+                                            email=request.POST["email"],
+                                            position='student',
                                             is_active=False)
             user.save()
             user.groups.add(Group.objects.get(name='student').id)
@@ -101,9 +102,11 @@ def register_mentor(request):
         status = reg_validation(request)
         if status:
             user = User.objects.create_user(first_name=request.POST["first_name"], 
-                                            last_name=request.POST["last_name"], username=request.POST["username"], 
+                                            last_name=request.POST["last_name"], 
+                                            username=request.POST["username"], 
                                             password=request.POST["password"]+salt, 
-                                            email=request.POST["email"], is_active=False)
+                                            email=request.POST["email"], position='mentor',
+                                            is_active=False)
             user.save()
             user.groups.add(Group.objects.get(name='mentor').id)
             user.user_permissions.add(Permission.objects.get(codename=request.POST["field_of_mentoring"]).id)
@@ -121,9 +124,11 @@ def register_manager(request):
         status = reg_validation(request)
         if status:
             user = User.objects.create_user(first_name=request.POST["first_name"], 
-                                            last_name=request.POST["last_name"], username=request.POST["username"], 
+                                            last_name=request.POST["last_name"], 
+                                            username=request.POST["username"], 
                                             password=request.POST["password"]+salt, 
-                                            email=request.POST["email"], is_active=False)
+                                            email=request.POST["email"], position='manager',
+                                            is_active=False)
             user.save()
             user.groups.add(Group.objects.get(name='manager').id)
             messages.success(request, 'ثبت نام شما با موفقیت ثبت شد، پس از تایید مدیر سیستم میتوانید وارد شوید')
