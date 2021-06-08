@@ -1,12 +1,13 @@
 from django.utils import timezone
 
 
-def search_fields(request, list):
-    search_result = [i for i in list if request.POST["owner"]  in f"{i.owner.first_name} + {i.owner.last_name}" and 
-                    request.POST["title"] in i.title and request.POST["year"] in str(i.year) and 
-                    request.POST["level"] in i.level and request.POST["field"] in i.field and 
-                    request.POST["dore"] in i.dore and request.POST["video_link"] in i.video_link and 
-                    request.POST["detail"] in i.detail]
+def search_fields(request, list, model_name):
+    if model_name == 'achievement':
+        search_result = [i for i in list if request.POST["owner"]  in f"{i.owner.first_name} + {i.owner.last_name}" and 
+                        request.POST["title"] in i.title and request.POST["year"] in str(i.year) and 
+                        request.POST["level"] in i.level and request.POST["field"] in i.field and 
+                        request.POST["dore"] in i.dore and request.POST["video_link"] in i.video_link and 
+                        request.POST["detail"] in i.detail]
     return search_result
 
 

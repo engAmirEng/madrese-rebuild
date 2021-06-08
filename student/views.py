@@ -22,7 +22,7 @@ def dashboard(request):
 @login_required
 @permission_required(['index.student'])
 def achievement(request):
-    achievement_list = Achievement.objects.filter(is_main=True)
+    achievement_list = Achievement.objects.filter(is_main=True, owner_id=Student.objects.get(meli_code=request.user.meli_code).id)
     if request.method == 'GET':
         if 'order' in request.GET:
             achievement_list = achievement_list.order_by(request.GET.get('order'))

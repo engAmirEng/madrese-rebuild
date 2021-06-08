@@ -90,7 +90,10 @@ def achievement_form(request, refrence_id):
         request.POST["modify_level"] = request.user.groups.all()[0].name
         filled_form = AchievementForm(request.POST, request.FILES)
         if filled_form.is_valid():
-            filled_form.save()
+            obj = filled_form.save()
+            obj.is_main = True
+            obj.refrence_id = obj.id if obj.refrence_id==0 else obj.refrence_id
+            obj.save()
             messages.success(
                 request, "تغییرات با موفقیت ثبت و پس از تایید مسئول نهایی خواهد شد.")
             return redirect('manager:dashboard')
@@ -142,17 +145,11 @@ def student_form(request, refrence_id):
 @require_GET
 @permission_required(['index.manager'])
 def achievement_delete(request, refrence_id):
-    ref_obj = get_object_or_404(
+    obj = get_object_or_404(
         Achievement, refrence_id=refrence_id, is_main=True)
-    new_obj = Achievement(owner=ref_obj.owner, title=ref_obj.title, year=ref_obj.year, field=ref_obj.field,
-                          level=ref_obj.level, dore=ref_obj.dore, pic=ref_obj.pic, video_link=ref_obj.video_link,
-                          detail=ref_obj.detail)
-    new_obj.refrence_id = ref_obj.refrence_id
-    new_obj.is_deleted = True
-    new_obj.modify_level = request.user.groups.all()[0].name
-    new_obj.save()
+    obj.delete()
     messages.success(
-        request, "درخواست با موفقیت ثبت شد و پس ااز تایید نهایی میشود")
+        request, "حذف با موفقیت انجام شد")
     return redirect('manager:achievement')
 
 
