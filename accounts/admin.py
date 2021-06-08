@@ -1,5 +1,22 @@
-# from django.contrib import admin
-# from django.contrib.auth.admin import UserAdmin
-# from .models import User
+from django.contrib import admin
+from .models import User
+from .forms import UserAdminForm
+from django.contrib.auth.admin import UserAdmin
 
-# admin.site.register(User, UserAdmin)
+
+class CustomUserAdmin(UserAdmin):
+    model = User
+    add_form = UserAdminForm
+    fieldsets = (
+        *UserAdmin.fieldsets,
+        (
+            'our fields',
+            {
+                'fields': (
+                    'meli_code',
+                )
+            }
+        )
+    )
+
+admin.site.register(User, CustomUserAdmin)

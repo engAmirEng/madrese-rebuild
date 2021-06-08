@@ -110,7 +110,8 @@ def student_form(request, refrence_id):
             obj = get_object_or_404(
                 Student, id = refrence_id)
             initial = {
-                "first_name":obj.first_name, "last_name":obj.last_name, "birthday":obj.birthday, "photo":obj.photo
+                "first_name":obj.first_name, "last_name":obj.last_name, "birthday":obj.birthday, 
+                "photo":obj.photo, "meli_code":obj.meli_code
             }
             content = {
                 "form":StudentForm(initial=initial)

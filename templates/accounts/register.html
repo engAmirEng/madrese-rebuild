@@ -28,6 +28,24 @@
 
         <form id="advanced-form" method="post" action="#">
           {% csrf_token %}
+          {% if 'student' in request.path %}
+          <div class="form-group">
+            <label class="sr-only control-label" for="meli_code">کد ملی</label>
+            <div class="input-group round">
+              <span class="input-group-addon">
+                <i class="icon-note"></i>
+              </span>
+              <input
+                type="text"
+                class="form-control round"
+                id="meli_code"
+                name="meli_code"
+                placeholder="کد ملی"
+                maxlength="10"
+              />
+            </div>
+          </div>
+          {% endif %}
           <div class="form-group">
             <label class="sr-only control-label" for="firstname">نام</label>
             <div class="input-group round">
@@ -40,6 +58,8 @@
                 id="firstname"
                 name="first_name"
                 placeholder="نام"
+                maxlength="50"
+                required
               />
             </div>
             <!-- /.input-group-->
@@ -59,6 +79,8 @@
                 id="lastname"
                 name="last_name"
                 placeholder="نام خانوادگی"
+                maxlength="50"
+                required
               />
             </div>
             <!-- /.input-group-->
@@ -79,6 +101,7 @@
                 name="username"
                 placeholder="نام کاربری"
                 required
+                maxlength="50"
               />
             </div>
             <!-- /.input-group-->
@@ -192,14 +215,14 @@
         </form>
 
         <hr class="m-b-30" />
-        <a
+        {% comment %} <a
           href="forget.html"
           class="btn btn-default btn-round btn-block m-b-10"
         >
           <i class="icon-refresh font-lg"></i>
           بازیابی رمز عبور
-        </a>
-        <a href="login.html" class="btn btn-default btn-round btn-block">
+        </a> {% endcomment %}
+        <a href="{% url 'accounts:login' %}" class="btn btn-default btn-round btn-block">
           <i class="icon-user-follow font-lg"></i>
           ثبت نام کرده اید؟ وارد شوید!
         </a>

@@ -8,7 +8,7 @@ class StudentForm(forms.ModelForm):
         model = Student
         fields = [i.name for i in Student._meta.get_fields()]
         fields.remove("achievement")
-        labels = {"first_name":"نام", "last_name":"نام خانوادگی", "birthday":"تاریخ تولد", "photo":"تصویر"}
+        labels = {"first_name":"نام", "last_name":"نام خانوادگی", "birthday":"تاریخ تولد", "photo":"تصویر", "meli_code":"کد ملی"}
 
 class AchievementForm(forms.ModelForm):
     class Meta:

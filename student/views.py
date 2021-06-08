@@ -1,4 +1,4 @@
-from index.models import Achievement
+from index.models import Achievement, Student
 from django.shortcuts import redirect, HttpResponseRedirect, render, get_object_or_404
 from django.urls import reverse
 from django.views.decorators.http import require_GET, require_http_methods
@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from .forms import AchievementForm
 from django.contrib import messages
 from . import extensions
+import student
 
 
 @require_GET
@@ -57,6 +58,7 @@ def achievement_form(request, refrence_id):
             content.update({"date": extensions.now()})
         return render(request, "student/form.html", content)
     elif request.method == "POST":
+        request.POST['owner'] = get_object_or_404(Student, meli_code=request.user.meli_code).id
         request.POST["refrence_id"] = refrence_id
         request.POST["modify_level"] = request.user.groups.all()[0].name
         filled_form = AchievementForm(request.POST, request.FILES)
@@ -92,7 +94,8 @@ def achievement_delete(request, refrence_id):
 @permission_required(['index.student'])
 def achievement_waiting(request):
     achievement_waiting_list = Achievement.objects.filter(is_main=False,
-                                                modify_level__in=['student'])
+                                                modify_level__in=['student'], 
+                                                owner_id=get_object_or_404(Student, meli_code=request.user.meli_code).id)
     if 'order' in request.GET:
         if request.GET.get('order') == 'kind':
             achievement_waiting_list = achievement_waiting_list.order_by('refrence_id', 'is_deleted')

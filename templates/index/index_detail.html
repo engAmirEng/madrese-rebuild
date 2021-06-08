@@ -33,7 +33,7 @@
         </thead>
         </thead>
         <tbody>
-            <th><img src="{{ achievement.owner.photo.url }}" alt=""></th>
+            <th><img src="{{ achievement.owner.photo.url }}" width="100" height="60" alt=""></th>
             <th>{{ achievement.owner.first_name }}</th>
             <th>{{ achievement.owner.last_name }}</th>
             <th>{{ achievement.owner.birthday }}</th>
@@ -42,7 +42,7 @@
             <th>{{ achievement.level }}</th>
             <th>{{ achievement.field }}</th>
             <th>{{ achievement.dore }}</th>
-            {% if achievement.pic %}<th><img src="{{ achievement.pic.url }}" alt=""></th>{% else %}<th> بارگذاری نشده </th>{% endif %}
+            {% if achievement.pic %}<th><img src="{{ achievement.pic.url }}" width="100" height="60" alt=""></th>{% else %}<th> بارگذاری نشده </th>{% endif %}
             {% if achievement.video_link %}<th>{{achievement.video_link}}</th>{% else %}<th> وارد نشده </th>{% endif %}
             {% if achievement.detail %}<th>{{ achievement.detail }}</th>>{% else %}<th> وارد نشده </th>{% endif %}
         </tbody>
@@ -71,7 +71,7 @@
         <tbody>
             {% for ar in achievement %}
             <tr>
-            <th><img src="{{ ar.owner.photo.url }}" alt=""></th>
+            <th><img src="{{ ar.owner.photo.url }}" width="100" height="60" alt=""></th>
             <th>{{ ar.owner.first_name }}</th>
             <th>{{ ar.owner.last_name }}</th>
             <th>{{ ar.title }}</th>
