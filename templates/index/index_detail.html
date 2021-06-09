@@ -89,6 +89,8 @@
     "{% url 'student:dashboard' %}"
     {% elif perms.index.mentor %}
     "{% url 'mentor:dashboard' %}"
+    {% elif perms.index.manager %}
+    "{% url 'manager:dashboard' %}"
     {% else %}
     "{% url 'accounts:login' %}"
     {% endif %}

@@ -15,7 +15,7 @@ def error_404(request, exception):
         return render(request,'errors/error404.html', data)
 def error_503(request, exception):
         data = {}
-        return render(request,'errors/error503  .html', data)
+        return render(request,'errors/error503.html', data)
 
 
 @require_http_methods(['GET', 'POST'])

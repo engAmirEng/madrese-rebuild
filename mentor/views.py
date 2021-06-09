@@ -79,7 +79,7 @@ def achievement_form(request, refrence_id):
         return render(request, "mentor/form.html", content)
     elif request.method == "POST":
         request.POST["refrence_id"] = refrence_id
-        request.POST["modify_level"] = request.user.groups.all()[0].name
+        request.POST["modify_level"] = 'mentor'
         request.POST['field'] = mentor
         filled_form = AchievementForm(request.POST, request.FILES)
         if filled_form.is_valid():
@@ -105,7 +105,7 @@ def achievement_delete(request, refrence_id):
                           detail=ref_obj.detail)
     new_obj.refrence_id = ref_obj.refrence_id
     new_obj.is_deleted = True
-    new_obj.modify_level = request.user.groups.all()[0].name
+    new_obj.modify_level = 'mentor'
     new_obj.save()
     messages.success(request, "درخواست با موفقیت ثبت شد")
     return redirect('mentor:achievement')
@@ -131,35 +131,11 @@ def achievement_waiting(request):
 
 def achievement_confirm_deny(request, action, refrence_id, id):
     obj = get_object_or_404(
-        Achievement, refrence_id=refrence_id, id=id, field=mentor_specialty(request))
+        Achievement, refrence_id=refrence_id, id=id, field=mentor_specialty(request), is_main=False)
     if action == 'confirm':
-        if refrence_id == 0:
-            obj.modify_level = request.user.groups.all()[0].name
-            obj.is_main = True if request.user.groups.all()[
-                0].name == "manager" else False
-            obj.refrence_id = obj.id if request.user.groups.all()[
-                0].name == "manager" else 0
-            obj.save()
-        elif not obj.is_deleted:
-            main_obj = get_object_or_404(
-                Achievement, refrence_id=refrence_id, is_main=True)
-            obj.modify_level = request.user.groups.all()[0].name
-            obj.is_main = True if request.user.groups.all()[
-                0].name == "manager" else False
-            obj.save()
-            main_obj.is_main = False if request.user.groups.all()[
-                0].name == "manager" else True
-            main_obj.save()
+            obj.modify_level = 'mentor'
             messages.success(request, "با موفقیت اعمال شد")
-            if request.user.groups.all()[0].name == "manager":
-                main_obj.delete()
-                messages.success(request, "با موفقیت جایگزین شد")
-        elif obj.is_deleted:
-            main_obj = get_object_or_404(
-                Achievement, refrence_id=refrence_id, is_main=True)
-            obj.delete()
-            main_obj.delete()
-            messages.success(request, "با موفقیت اعمال شد")
+            obj.save()
     elif action == "deny":
         obj.delete()
         messages.success(request, "درخواست تغییرات رد شد")

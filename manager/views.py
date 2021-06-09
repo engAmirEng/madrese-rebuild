@@ -1,5 +1,5 @@
 from index.models import Achievement, Student
-from django.shortcuts import redirect, HttpResponseRedirect, render, get_object_or_404
+from django.shortcuts import get_list_or_404, redirect, HttpResponseRedirect, render, get_object_or_404
 from django.urls import reverse
 from django.views.decorators.http import require_GET, require_http_methods
 from django.contrib.auth.decorators import login_required, permission_required
@@ -87,15 +87,18 @@ def achievement_form(request, refrence_id):
         return render(request, "manager/form.html", content)
     elif request.method == "POST":
         request.POST["refrence_id"] = refrence_id
-        request.POST["modify_level"] = request.user.groups.all()[0].name
+        request.POST["modify_level"] = 'manager'
         filled_form = AchievementForm(request.POST, request.FILES)
         if filled_form.is_valid():
+            if refrence_id != 0:
+                main_obj = get_object_or_404(Achievement, refrence_id=refrence_id, is_main=True)
+                main_obj.delete()
             obj = filled_form.save()
             obj.is_main = True
             obj.refrence_id = obj.id if obj.refrence_id==0 else obj.refrence_id
             obj.save()
             messages.success(
-                request, "تغییرات با موفقیت ثبت و پس از تایید مسئول نهایی خواهد شد.")
+                request, "با موفقیت انجام شد.")
             return redirect('manager:dashboard')
         else:
             messages.error(request, "خطا، اطلاعات وارد شده معتبر نمی باشد.")
@@ -150,6 +153,10 @@ def achievement_delete(request, refrence_id):
     obj.delete()
     messages.success(
         request, "حذف با موفقیت انجام شد")
+    related_request_objs = get_list_or_404(Achievement, refrence_id=refrence_id)
+    for obj in related_request_objs:
+        obj.delete()
+    messages.info(request, f'{len(related_request_objs)} عدد درخواست ویرایش موبوط به این دست آورد حذف شدند')
     return redirect('manager:achievement')
 
 
@@ -190,32 +197,29 @@ def achievement_confirm_deny(request, action, refrence_id, id):
     obj = get_object_or_404(Achievement, refrence_id=refrence_id, id=id)
     if action == 'confirm':
         if refrence_id == 0:
-            obj.modify_level = request.user.groups.all()[0].name
-            obj.is_main = True if request.user.groups.all()[
-                0].name == "manager" else False
-            obj.refrence_id = obj.id if request.user.groups.all()[
-                0].name == "manager" else 0
+            obj.modify_level = 'manager'
+            obj.is_main = True
+            obj.refrence_id = obj.id
             obj.save()
+            messages.success(request, "با موفقیت اضافه شد")
         elif not obj.is_deleted:
             main_obj = get_object_or_404(
                 Achievement, refrence_id=refrence_id, is_main=True)
-            obj.modify_level = request.user.groups.all()[0].name
-            obj.is_main = True if request.user.groups.all()[
-                0].name == "manager" else False
+            obj.modify_level = 'manager'
+            obj.is_main = True
             obj.save()
-            main_obj.is_main = False if request.user.groups.all()[
-                0].name == "manager" else True
-            main_obj.save()
             messages.success(request, "با موفقیت اعمال شد")
-            if request.user.groups.all()[0].name == "manager":
-                main_obj.delete()
-                messages.success(request, "با موفقیت جایگزین شد")
-        elif obj.is_deleted:
-            main_obj = get_object_or_404(
-                Achievement, refrence_id=refrence_id, is_main=True)
-            obj.delete()
             main_obj.delete()
-            messages.success(request, "با موفقیت اعمال شد")
+            messages.success(request, "با موفقیت جایگزین شد")
+        elif obj.is_deleted:
+            obj.delete()
+            messages.success(request, "حذف با موفقیت اعمال شد")
+            related_request_objs = get_list_or_404(
+                Achievement, refrence_id=refrence_id)
+            for obj in related_request_objs:
+                obj.delete()
+            messages.info(request, f'{len(related_request_objs)} عدد درخواست ویرایش موبوط به این دست آورد حذف شدند')
+
     elif action == "deny":
         obj.delete()
         messages.success(request, "درخواست تغییرات رد شد")

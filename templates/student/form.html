@@ -47,7 +47,7 @@
                                     <span class="input-group-addon">
                                         <i class="icon-user"></i>
                                     </span>
-                                    <input type="text" class="form-control" value="{{user.first_name}} {{user.last_name}}" name="first_name" disabled>
+                                    <input type="text" class="form-control" placeholder="{{user.first_name}} {{user.last_name}}" name="owner" disabled>
                                     <!-- {{ form.owner}} -->
                                 </div><!-- /.input-group -->
                             </div><!-- /.form-group -->
@@ -189,7 +189,7 @@
                                         <i class="icon-user"></i>
                                     </span>
                                     <!-- <input type="text" class="form-control" placeholder="نام" name="first_name"> -->
-                                    {{ form.owner}}
+                                    <input type="text" class="form-control" placeholder="{{user.first_name}} {{user.last_name}}" name="owner" disabled>
                                 </div><!-- /.input-group -->
                             </div><!-- /.form-group -->
                             <div class="form-group">

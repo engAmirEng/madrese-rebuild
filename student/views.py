@@ -6,7 +6,6 @@ from django.contrib.auth.decorators import login_required, permission_required
 from .forms import AchievementForm
 from django.contrib import messages
 from . import extensions
-import student
 
 
 @require_GET
@@ -22,7 +21,8 @@ def dashboard(request):
 @login_required
 @permission_required(['index.student'])
 def achievement(request):
-    achievement_list = Achievement.objects.filter(is_main=True, owner_id=Student.objects.get(meli_code=request.user.meli_code).id)
+    achievement_list = Achievement.objects.filter(is_main=True, 
+            owner_id=Student.objects.get(meli_code=request.user.meli_code).id)
     if request.method == 'GET':
         if 'order' in request.GET:
             achievement_list = achievement_list.order_by(request.GET.get('order'))
@@ -60,7 +60,7 @@ def achievement_form(request, refrence_id):
     elif request.method == "POST":
         request.POST['owner'] = get_object_or_404(Student, meli_code=request.user.meli_code).id
         request.POST["refrence_id"] = refrence_id
-        request.POST["modify_level"] = request.user.groups.all()[0].name
+        request.POST["modify_level"] = 'student'
         filled_form = AchievementForm(request.POST, request.FILES)
         if filled_form.is_valid():
             filled_form.save()
@@ -83,7 +83,7 @@ def achievement_delete(request, refrence_id):
                           detail=ref_obj.detail)
     new_obj.refrence_id = ref_obj.refrence_id
     new_obj.is_deleted = True
-    new_obj.modify_level = request.user.groups.all()[0].name
+    new_obj.modify_level = 'student'
     new_obj.save()
     messages.success(request, "درخواست با موفقیت ثبت شد")
     return redirect('student:achievement')
@@ -114,35 +114,7 @@ def achievement_waiting(request):
 @permission_required(['index.student'])
 def achievement_confirm_deny(request, action, refrence_id, id):
     obj = get_object_or_404(Achievement, refrence_id=refrence_id, id=id)
-    if action == 'confirm':
-        if refrence_id == 0:
-            obj.modify_level = request.user.groups.all()[0].name
-            obj.is_main = True if request.user.groups.all()[
-                0].name == "manager" else False
-            obj.refrence_id = obj.id if request.user.groups.all()[
-                0].name == "manager" else 0
-            obj.save()
-        elif not obj.is_deleted:
-            main_obj = get_object_or_404(
-                Achievement, refrence_id=refrence_id, is_main=True)
-            obj.modify_level = request.user.groups.all()[0].name
-            obj.is_main = True if request.user.groups.all()[
-                0].name == "manager" else False
-            obj.save()
-            main_obj.is_main = False if request.user.groups.all()[
-                0].name == "manager" else True
-            main_obj.save()
-            messages.success(request, "با موفقیت اعمال شد")
-            if request.user.groups.all()[0].name == "manager":
-                main_obj.delete()
-                messages.success(request, "با موفقیت جایگزین شد")
-        elif obj.is_deleted:
-            main_obj = get_object_or_404(
-                Achievement, refrence_id=refrence_id, is_main=True)
-            obj.delete()
-            main_obj.delete()
-            messages.success(request, "با موفقیت اعمال شد")
-    elif action == 'deny':
+    if action == 'deny':
         obj.delete()
         messages.success(request, "درخواست تغییرات رد شد")
     return redirect('student:achievement_waiting')

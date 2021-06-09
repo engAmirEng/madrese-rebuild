@@ -257,7 +257,7 @@
                     </details>               
                 </th>{% else %}<th> وارد نشده </th>{% endif %}
                 <th><th> <a class="btn btn-primary" role="button" href="{% url 'manager:achievement_form' ar.refrence_id %}"> ویرایش </a> </th></th>
-                <th><th> <a onclick="return confirm(' این رکورد حذف خواهد شد،ادامه؟')" class="btn btn-danger" role="button" href="{% url 'manager:achievement_delete' ar.refrence_id %}"> حذف </a> </th></th>
+                <th><th> <a onclick="return confirm(' این رکورد و درخواست های ویرایش آن حذف خواهد شد،ادامه؟')" class="btn btn-danger" role="button" href="{% url 'manager:achievement_delete' ar.refrence_id %}"> حذف </a> </th></th>
             </tr>
             {% endfor %}
         </tbody>
