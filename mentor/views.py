@@ -81,6 +81,9 @@ def achievement_form(request, refrence_id):
         request.POST["refrence_id"] = refrence_id
         request.POST["modify_level"] = 'mentor'
         request.POST['field'] = mentor
+        # check to see if pic field isn't uploaded and if it is necessary to use the old one or set it blank
+        if 'delete_pic' not in request.POST and refrence_id != 0 and 'pic' not in request.FILES:
+            request.FILES['pic'] = get_object_or_404(Achievement, refrence_id=refrence_id, is_main=True).pic
         filled_form = AchievementForm(request.POST, request.FILES)
         if filled_form.is_valid():
             filled_form.save()

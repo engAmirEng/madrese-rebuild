@@ -88,6 +88,9 @@ def achievement_form(request, refrence_id):
     elif request.method == "POST":
         request.POST["refrence_id"] = refrence_id
         request.POST["modify_level"] = 'manager'
+        # check to see if pic field isn't uploaded and if it is necessary to use the old one or set it blank
+        if 'delete_pic' not in request.POST and refrence_id != 0 and 'pic' not in request.FILES:
+            request.FILES['pic'] = get_object_or_404(Achievement, refrence_id=refrence_id, is_main=True).pic
         filled_form = AchievementForm(request.POST, request.FILES)
         if filled_form.is_valid():
             if refrence_id != 0:
@@ -131,7 +134,9 @@ def student_form(request, refrence_id):
         jy, jm, jd = request.POST["birthday"].split("/")
         miladi_y, miladi_m, miladi_d = extensions.jalali_to_gregorian(int(jy), int(jm) ,int(jd))
         request.POST["birthday"] = f"{miladi_y}-{miladi_m}-{miladi_d}"
-        filled_form = StudentForm(request.POST, request.FILES, instance=get_object_or_404(Student, id=id)) if \
+        if refrence_id != 0 and 'photo' not in request.FILES:
+            request.FILES['photo'] = get_object_or_404(Student, id=refrence_id).photo
+        filled_form = StudentForm(request.POST, request.FILES, instance=get_object_or_404(Student, id=refrence_id)) if \
             refrence_id != 0 else StudentForm(request.POST, request.FILES)
         if filled_form.is_valid():
             filled_form.save()
