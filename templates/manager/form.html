@@ -216,21 +216,29 @@
                             </div><!-- /.form-group -->
                         </div><!-- /.portlet-body -->  
                 <!-- date field -->
+
+                            {% if form.photo.value %}<a href="{{form.photo.value.url}}">مشاهده تصویر فعلی</a>{% endif %}
+
                             <div class="form-group relative">
-                                <input type="file" class="form-control"> 
+                                <input type="file" class="form-control" name="photo"> 
                                 <label>{{ form.photo.label}}</label>
-                                <div class="input-group round">
-                                    <input type="file" class="form-control file-input" placeholder="برای آپلود کلیک کنید" name="photo" required>
-                                    <!-- {{ form.photo.url } -->
+                                <div class="input-group round"> 
+                                    <input type="text" class="form-control file-input" 
+                                    placeholder="{% if form.photo.value %}{{form.photo.value.url}}
+                                    {% else %}تصویر را بارگذاری گنید{% endif %}" 
+                                    name="photo">
                                     <span class="input-group-btn input-group-sm"> 
                                         <button type="button" class="btn btn-info"> 
                                             <i class="icon-picture"></i>
                                             آپلود عکس
-                                        </button>
-                                    </span> 
-                                </div><!-- /.input-group -->
-                                <div class="help-block"></div>
+                                            <div class="paper-ripple"><div class="paper-ripple__background"></div><div class="paper-ripple__waves"></div></div></button>
+                                        </span> 
+                                    </div><!-- /.input-group -->
+                                    <div class="help-block"></div>
+                                </div>
+                                
                             </div><!-- /.form-group -->
+
                         </div><!-- /.form-body -->
                         <div class="form-actions">
                             <button type="submit" class="btn btn-info btn-round">

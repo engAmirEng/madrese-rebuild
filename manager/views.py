@@ -134,7 +134,9 @@ def student_form(request, refrence_id):
         jy, jm, jd = request.POST["birthday"].split("/")
         miladi_y, miladi_m, miladi_d = extensions.jalali_to_gregorian(int(jy), int(jm) ,int(jd))
         request.POST["birthday"] = f"{miladi_y}-{miladi_m}-{miladi_d}"
-        filled_form = StudentForm(request.POST, request.FILES, instance=get_object_or_404(Student, id=id)) if \
+        if refrence_id != 0 and 'photo' not in request.FILES:
+            request.FILES['photo'] = get_object_or_404(Student, id=refrence_id).photo
+        filled_form = StudentForm(request.POST, request.FILES, instance=get_object_or_404(Student, id=refrence_id)) if \
             refrence_id != 0 else StudentForm(request.POST, request.FILES)
         if filled_form.is_valid():
             filled_form.save()
