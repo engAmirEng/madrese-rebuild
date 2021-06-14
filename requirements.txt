@@ -8,6 +8,7 @@ chardet==4.0.0
 click==6.7
 colorama==0.4.4
 cryptography==3.4.7
+dj-database-url==0.5.0
 Django==3.2.4
 futures==3.1.1
 google-assistant-grpc==0.2.1
@@ -25,6 +26,7 @@ oauthlib==3.1.1
 pathlib2==2.3.5
 Pillow==8.2.0
 protobuf==3.17.1
+psycopg2==2.8.6
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
 pycodestyle==2.7.0
