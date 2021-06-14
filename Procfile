@@ -1,1 +1,1 @@
-web: madrese.wsgi --log-file -
+web: gunicorn madrese.wsgi --log-file -
