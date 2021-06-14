@@ -1,0 +1,1 @@
+web: madrese.wsgi --log-file -

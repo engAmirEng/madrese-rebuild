@@ -12,10 +12,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-1y3ha_h#$8%+9h_ufy+j(p4uu0vubuz+l!v(nif+p4*_%yrpe$'
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
-    'localhost', '127.0.0.1'
+    'localhost', '127.0.0.1',
+    'madrese-e.herokuapp.com'
 ]
 
 
@@ -35,6 +36,9 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -100,6 +104,8 @@ USE_L10N = True
 
 USE_TZ = False
 
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
