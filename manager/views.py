@@ -158,7 +158,7 @@ def achievement_delete(request, refrence_id):
     obj.delete()
     messages.success(
         request, "حذف با موفقیت انجام شد")
-    related_request_objs = get_list_or_404(Achievement, refrence_id=refrence_id)
+    related_request_objs = Achievement.objects.filter(refrence_id=refrence_id, is_main=False)
     for obj in related_request_objs:
         obj.delete()
     messages.info(request, f'{len(related_request_objs)} عدد درخواست ویرایش موبوط به این دست آورد حذف شدند')
